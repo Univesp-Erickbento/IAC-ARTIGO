@@ -10,20 +10,47 @@ const botoes = {
 };
 const cards = document.querySelectorAll(".card-item");
 function filtrar(tipo) {
-    cards.forEach(card => {
-        if (tipo === "todos") {
+
+    const descricao =
+        document.getElementById("descricaoTecnologia");
+
+    if (tipo === "todos") {
+
+        cards.forEach(card => {
             card.style.display = "block";
+        });
+
+        descricao?.classList.add("d-none");
+
+        return;
+    }
+
+    cards.forEach(card => {
+
+        if (card.dataset.type === tipo) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
         }
-        else {
-            card.style.display =
-                card.dataset.type === tipo ? "block" : "none";
-        }
+
     });
 }
-botoes.todos?.addEventListener("click", () => filtrar("todos"));
-botoes.terraform?.addEventListener("click", () => filtrar("terraform"));
-botoes.ansible?.addEventListener("click", () => filtrar("ansible"));
-botoes.beneficios?.addEventListener("click", () => filtrar("beneficios"));
+botoes.todos?.addEventListener("click", () => {
+    filtrar("todos");
+    mostrarDescricao("todos");
+});
+botoes.terraform?.addEventListener("click", () => {
+    filtrar("terraform");
+    mostrarDescricao("terraform");
+});
+botoes.ansible?.addEventListener("click", () => {
+    filtrar("ansible");
+    mostrarDescricao("ansible");
+});
+botoes.beneficios?.addEventListener("click", () => {
+    filtrar("beneficios");
+    mostrarDescricao("beneficios");
+});
 // =======================
 // DARK MODE
 // =======================
@@ -115,3 +142,75 @@ document.addEventListener("DOMContentLoaded", () => {
     atualizarDias();
     runPipeline();
 });
+
+function mostrarDescricao(tipo) {
+
+    const descricao =
+        document.getElementById("descricaoTecnologia");
+
+    if (!descricao) return;
+
+    descricao.classList.remove("d-none");
+
+    switch (tipo) {
+
+        case "terraform":
+    descricao.innerHTML = `
+        <div class="card p-3 shadow hover-card">
+            <h5>Terraform</h5>
+
+            <p>
+              Sua principal vantagem é permitir que toda a infraestrutura
+              seja versionada e reproduzida de forma consistente.
+            </p>
+
+            <p>
+               Reduzindo atividades manuais e aumentando a confiabilidade
+               das implantações.
+            </p>
+        </div>
+    `;
+    break;
+
+        case "ansible":
+    descricao.innerHTML = `
+        <div class="card p-3 shadow hover-card">
+            <h5>Ansible</h5>
+
+            <p>
+                Utilizando Playbooks escritos em YAML, é possível
+                padronizar configurações.
+            </p>
+
+            <p>
+                Reduzir erros operacionais
+                e garantir maior agilidade na administração da
+                infraestrutura.
+            </p>
+
+        </div>
+    `;
+    break;
+        case "beneficios":
+
+            descricao.innerHTML = `
+                <div class="card shadow p-4">
+                    <h4>Benefícios da Solução</h4>
+
+            <p>
+                Padronização dos ambientes, Escalabilidade da infraestrutura,Redução de erros humanos
+            </p>
+
+            <p>
+                Maior produtividade das equipes, Recuperação rápida de ambientes, Automação completa do processo
+            </p>
+
+                </div>
+            `;
+            break;
+
+        default:
+
+            descricao.classList.add("d-none");
+    }
+}

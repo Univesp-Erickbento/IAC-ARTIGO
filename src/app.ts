@@ -23,10 +23,25 @@ function filtrar(tipo: string): void {
     });
 }
 
-botoes.todos?.addEventListener("click", () => filtrar("todos"));
-botoes.terraform?.addEventListener("click", () => filtrar("terraform"));
-botoes.ansible?.addEventListener("click", () => filtrar("ansible"));
-botoes.beneficios?.addEventListener("click", () => filtrar("beneficios"));
+botoes.todos?.addEventListener("click", () => {
+    filtrar("todos");
+    mostrarDescricao("todos");
+});
+
+botoes.terraform?.addEventListener("click", () => {
+    filtrar("terraform");
+    mostrarDescricao("terraform");
+});
+
+botoes.ansible?.addEventListener("click", () => {
+    filtrar("ansible");
+    mostrarDescricao("ansible");
+});
+
+botoes.beneficios?.addEventListener("click", () => {
+    filtrar("beneficios");
+    mostrarDescricao("beneficios");
+});
 
 // =======================
 // DARK MODE
@@ -138,3 +153,54 @@ document.addEventListener("DOMContentLoaded", () => {
     atualizarDias();
     runPipeline();
 });
+
+function mostrarDescricao(tipo: string): void {
+
+    const descricao = document.getElementById("descricaoTecnologia");
+
+    if (!descricao) return;
+
+    switch (tipo) {
+
+        case "terraform":
+            descricao.innerHTML = `
+                <h5>Terraform</h5>
+                <p>
+                    Terraform é uma ferramenta de Infraestrutura como Código (IaC)
+                    utilizada para provisionar recursos em provedores de nuvem
+                    através de arquivos declarativos. Permite versionamento,
+                    automação, reprodutibilidade e gerenciamento do ciclo de vida
+                    da infraestrutura.
+                </p>
+            `;
+            break;
+
+        case "ansible":
+            descricao.innerHTML = `
+                <h5>Ansible</h5>
+                <p>
+                    Ansible é uma ferramenta de automação utilizada para
+                    configuração de servidores, instalação de softwares,
+                    gerenciamento de serviços e orquestração de ambientes.
+                    Utiliza Playbooks escritos em YAML para definir tarefas.
+                </p>
+            `;
+            break;
+
+        case "beneficios":
+            descricao.innerHTML = `
+                <h5>Benefícios da Solução</h5>
+                <p>
+                    A utilização de IaC reduz erros manuais, aumenta a
+                    produtividade das equipes, garante padronização dos
+                    ambientes, facilita auditorias, melhora a escalabilidade
+                    e permite recuperação rápida da infraestrutura.
+                </p>
+            `;
+            break;
+
+        default:
+            descricao.innerHTML =
+                "Selecione uma tecnologia para visualizar mais detalhes.";
+    }
+}
