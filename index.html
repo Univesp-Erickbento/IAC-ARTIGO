@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>IaC Explorer - Infraestrutura como Código</title>
+    <title>IaC Explorer - TCC</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -19,7 +19,7 @@
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="#">IaC Explorer</a>
+        <a class="navbar-brand fw-bold" href="#">IaC Explorer</a>
 
         <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
             <span class="navbar-toggler-icon"></span>
@@ -28,9 +28,13 @@
         <div class="collapse navbar-collapse" id="menu">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="#sobre">Sobre</a></li>
-                <li class="nav-item"><a class="nav-link" href="#tecnologias">Tecnologias</a></li>
-                <li class="nav-item"><a class="nav-link" href="#conteudo">Conteúdo</a></li>
+                <li class="nav-item"><a class="nav-link" href="#grafico">Comparação</a></li>
+                <li class="nav-item"><a class="nav-link" href="#conteudo">Funcionalidades</a></li>
                 <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+
+                <li class="nav-item ms-3">
+                    <button class="btn btn-outline-light btn-sm" id="themeToggle">🌙 Tema</button>
+                </li>
             </ul>
         </div>
     </div>
@@ -41,60 +45,97 @@
     <div class="row align-items-center">
 
         <div class="col-md-6">
-            <h1 class="display-5">Infraestrutura como Código</h1>
+
+            <h1 class="fade-in">Infraestrutura como Código (IaC)</h1>
 
             <h4 class="text-muted">
-                Automação de ambientes em nuvem com Terraform e Ansible
+                Automação de provisionamento em nuvem com Terraform e Ansible
             </h4>
 
-            <p class="mt-3">
-                A Infraestrutura como Código (IaC) permite gerenciar e provisionar
-                recursos de TI através de código, aumentando automação, escalabilidade
-                e confiabilidade em ambientes cloud.
+            <p>
+                Este projeto apresenta uma abordagem de Engenharia de Software aplicada ao DevOps,
+                utilizando Infraestrutura como Código para automação, escalabilidade e padronização de ambientes cloud.
             </p>
 
-            <button class="btn btn-dark mt-3" id="filtroTodos">Mostrar Tudo</button>
-            <button class="btn btn-outline-primary mt-3" id="filtroTerraform">Terraform</button>
-            <button class="btn btn-outline-success mt-3" id="filtroAnsible">Ansible</button>
+            <div class="alert alert-secondary mt-3 text-center">
+                  <span id="dataAtual"></span>
+            </div>
+
+            <!-- DIAS -->
+            <div class="alert alert-secondary mt-3">
+                <span id="dias"></span>
+            </div>
+
+            <!-- FILTROS -->
+            <button class="btn btn-dark" id="filtroTodos">Todos</button>
+            <button class="btn btn-primary" id="filtroTerraform">Terraform</button>
+            <button class="btn btn-success" id="filtroAnsible">Ansible</button>
+            <button class="btn btn-warning" id="filtroBeneficios">Benefícios</button>
+
         </div>
 
+        <!-- IMAGEM -->
         <div class="col-md-6">
-            <img class="img-fluid rounded shadow"
-                 src="https://images.unsplash.com/photo-1451187580459-43490279c0fa"
-                 alt="Cloud Computing">
+            <img 
+                class="img-fluid rounded shadow float-anim"
+                src="https://miro.medium.com/1*G9ctO_oroLJNmXuoly_DvQ.png"
+                alt="CI/CD Pipeline DevOps"
+            >
         </div>
 
     </div>
 </section>
 
+<!-- OBJETIVO -->
+<section class="container py-4">
+    <h2>Objetivo do Projeto</h2>
+    <p>
+        Este projeto propõe a automação do provisionamento e da configuração de infraestrutura em ambientes de nuvem por meio 
+        das ferramentas Terraform e Ansible, adotando práticas de Infrastructure as Code (IaC) e princípios da cultura DevOps.
+        A solução visa garantir a criação declarativa, versionada e reprodutível de recursos de infraestrutura, reduzindo 
+        intervenções manuais e minimizando inconsistências entre ambientes.
+    </p>
+</section>
+
+
+<!-- PIPELINE -->
+<section class="container text-center my-4">
+
+    <h2>Pipeline DevOps</h2>
+
+    <div class="pipeline">
+        <div class="step" id="stepDeploy">Deploy</div>
+        <div class="step" id="stepBuild">Build</div>
+        <div class="step" id="stepSuccess">Success</div>
+    </div>
+
+</section>
+
 <!-- CARDS -->
 <section id="conteudo" class="container py-5">
 
-    <h2 class="text-center mb-4">Componentes da IaC</h2>
+    <h2 class="text-center mb-4">Funcionalidades do Sistema</h2>
 
-    <div class="row" id="cardsContainer">
+    <div class="row">
 
-        <!-- Terraform -->
         <div class="col-md-4 card-item" data-type="terraform">
-            <div class="card p-3 shadow">
+            <div class="card p-3 shadow hover-card">
                 <h5>Terraform</h5>
-                <p>Ferramenta para provisionamento declarativo de infraestrutura em nuvem.</p>
+                <p>Provisionamento declarativo de infraestrutura em nuvem.</p>
             </div>
         </div>
 
-        <!-- Ansible -->
         <div class="col-md-4 card-item" data-type="ansible">
-            <div class="card p-3 shadow">
+            <div class="card p-3 shadow hover-card">
                 <h5>Ansible</h5>
                 <p>Automação de configuração e gerenciamento de servidores.</p>
             </div>
         </div>
 
-        <!-- Benefícios -->
-        <div class="col-md-4 card-item" data-type="geral">
-            <div class="card p-3 shadow">
+        <div class="col-md-4 card-item" data-type="beneficios">
+            <div class="card p-3 shadow hover-card">
                 <h5>Benefícios</h5>
-                <p>Redução de erros, escalabilidade e padronização de ambientes.</p>
+                <p>Escalabilidade, padronização e redução de erros humanos.</p>
             </div>
         </div>
 
@@ -102,32 +143,53 @@
 </section>
 
 <!-- TECNOLOGIAS -->
-<section id="tecnologias" class="container py-5 text-center">
+<section class="container text-center py-4">
+    <h2>Tecnologias Utilizadas</h2>
 
-    <h2 class="mb-4">Tecnologias Utilizadas</h2>
-
-    <div class="row">
+    <div class="row mt-3">
         <div class="col-md-3">Bootstrap</div>
         <div class="col-md-3">TypeScript</div>
         <div class="col-md-3">HTML5</div>
         <div class="col-md-3">CSS3</div>
     </div>
+</section>
+
+<!-- ARQUITETURA -->
+<section class="container py-5 text-center">
+
+    <h2 class="mb-4">Arquitetura do Sistema</h2>
+
+    <div class="arch-box">
+        <div>Usuário</div>
+        <div>→</div>
+        <div>Frontend (Bootstrap + TypeScript)</div>
+        <div>→</div>
+        <div>Pipeline CI/CD</div>
+        <div>→</div>
+        <div>Terraform</div>
+        <div>→</div>
+        <div>Ansible</div>
+        <div>→</div>
+        <div>Cloud Provider</div>
+    </div>
 
 </section>
 
+   <!-- STATUS LOADER -->
+            <div class="alert alert-info mt-3 text-center">
+                <div class="loader"></div>
+                <p id="statusText">Provisionando infraestrutura...</p>
+            </div>
+
 <!-- FOOTER -->
-<footer id="contato" class="bg-dark text-white text-center p-4">
+<footer id="contato" class="bg-dark text-white text-center p-4 mt-5">
 
     <p><strong>Aluno:</strong> Erick Bento</p>
-    <p><strong>Curso:</strong> Pôs Graduação em Desenvolvimento WebMobile</p>
+    <p><strong>Curso:</strong> Pós-Graduação em Desenvolvimento Web Mobile</p>
     <p><strong>Email:</strong> erickbento@yahoo.com.br</p>
 
 </footer>
 
-<!-- Bootstrap -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- JS compilado -->
 <script src="dist/app.js"></script>
 
 </body>
