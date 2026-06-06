@@ -1,5 +1,3 @@
-declare const Chart: any;
-
 // =======================
 // FILTROS
 // =======================
@@ -13,13 +11,28 @@ const botoes = {
 const cards = document.querySelectorAll<HTMLElement>(".card-item");
 
 function filtrar(tipo: string): void {
+
+    const descricao =
+        document.getElementById("descricaoTecnologia");
+
+    if (tipo === "todos") {
+
+        cards.forEach(card => {
+            card.style.display = "block";
+        });
+
+        descricao?.classList.add("d-none");
+        return;
+    }
+
     cards.forEach(card => {
-        if (tipo === "todos") {
+
+        if (card.dataset.type === tipo) {
             card.style.display = "block";
         } else {
-            card.style.display =
-                card.dataset.type === tipo ? "block" : "none";
+            card.style.display = "none";
         }
+
     });
 }
 
@@ -46,7 +59,8 @@ botoes.beneficios?.addEventListener("click", () => {
 // =======================
 // DARK MODE
 // =======================
-document.getElementById("themeToggle")?.addEventListener("click", () => {
+document.getElementById("themeToggle")
+?.addEventListener("click", () => {
     document.body.classList.toggle("dark");
 });
 
@@ -54,19 +68,24 @@ document.getElementById("themeToggle")?.addEventListener("click", () => {
 // DATA ATUAL
 // =======================
 function atualizarData(): void {
-    const dataAtual = document.getElementById("dataAtual");
+
+    const dataAtual =
+        document.getElementById("dataAtual");
 
     if (dataAtual) {
+
         const hoje = new Date();
 
-        const dataFormatada = hoje.toLocaleDateString("pt-BR", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-            year: "numeric"
-        });
+        const dataFormatada =
+            hoje.toLocaleDateString("pt-BR", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            });
 
-        dataAtual.textContent = `Hoje é ${dataFormatada}`;
+        dataAtual.textContent =
+            `Hoje é ${dataFormatada}`;
     }
 }
 
@@ -74,7 +93,8 @@ function atualizarData(): void {
 // CONTADOR DE DIAS
 // =======================
 function atualizarDias(): void {
-    const entrega = new Date("2026-07-10");
+
+    const entrega = new Date("2027-07-10");
     const hoje = new Date();
 
     const diasRestantes = Math.ceil(
@@ -82,125 +102,103 @@ function atualizarDias(): void {
         (1000 * 60 * 60 * 24)
     );
 
-    const dias = document.getElementById("dias");
+    const dias =
+        document.getElementById("dias");
 
     if (dias) {
+
         dias.textContent =
             `${diasRestantes} dias restantes para entrega do TCC`;
     }
 }
 
 // =======================
-// GRÁFICO
+// DESCRIÇÕES
 // =======================
-const canvas = document.getElementById("iacChart") as HTMLCanvasElement | null;
+function mostrarDescricao(tipo: string): void {
 
-if (canvas) {
-    new Chart(canvas, {
-        type: "bar",
-        data: {
-            labels: [
-                "Facilidade",
-                "Escalabilidade",
-                "Automação",
-                "Popularidade"
-            ],
-            datasets: [
-                {
-                    label: "Terraform",
-                    data: [7, 10, 9, 9],
-                    backgroundColor: "#38bdf8"
-                },
-                {
-                    label: "Ansible",
-                    data: [9, 7, 8, 8],
-                    backgroundColor: "#f97316"
-                }
-            ]
-        }
-    });
-}
+    const descricao =
+        document.getElementById("descricaoTecnologia");
 
-// =======================
-// PIPELINE
-// =======================
-const deploy = document.getElementById("stepDeploy");
-const build = document.getElementById("stepBuild");
-const success = document.getElementById("stepSuccess");
+    if (!descricao) return;
 
-function runPipeline(): void {
-    setTimeout(() => deploy?.classList.add("active"), 600);
+    descricao.classList.remove("d-none");
 
-    setTimeout(() => build?.classList.add("active"), 1400);
+    switch (tipo) {
 
-    setTimeout(() => {
-        success?.classList.add("active");
+        case "terraform":
 
-        const status = document.getElementById("statusText");
+            descricao.innerHTML = `
+                <div class="card p-3 shadow hover-card">
+                    <h5>Terraform</h5>
 
-        if (status) {
-            status.textContent =
-                "Infraestrutura provisionada com sucesso!";
-        }
-    }, 2200);
+                    <p>
+                        Sua principal vantagem é permitir que toda a infraestrutura
+                        seja versionada e reproduzida de forma consistente.
+                    </p>
+
+                    <p>
+                        Reduzindo atividades manuais e aumentando a confiabilidade
+                        das implantações.
+                    </p>
+                </div>
+            `;
+            break;
+
+        case "ansible":
+
+            descricao.innerHTML = `
+                <div class="card p-3 shadow hover-card">
+                    <h5>Ansible</h5>
+
+                    <p>
+                        Utilizando Playbooks escritos em YAML,
+                        é possível padronizar configurações.
+                    </p>
+
+                    <p>
+                        Reduzir erros operacionais e garantir
+                        maior agilidade na administração da infraestrutura.
+                    </p>
+                </div>
+            `;
+            break;
+
+        case "beneficios":
+
+            descricao.innerHTML = `
+                <div class="card shadow p-4">
+
+                    <h4>Benefícios da Solução</h4>
+
+                    <p>
+                        Padronização dos ambientes,
+                        escalabilidade da infraestrutura
+                        e redução de erros humanos.
+                    </p>
+
+                    <p>
+                        Maior produtividade das equipes,
+                        recuperação rápida de ambientes
+                        e automação completa do processo.
+                    </p>
+
+                </div>
+            `;
+            break;
+
+        default:
+
+            descricao.classList.add("d-none");
+    }
 }
 
 // =======================
 // INICIALIZAÇÃO
 // =======================
 document.addEventListener("DOMContentLoaded", () => {
+
     atualizarData();
     atualizarDias();
-    runPipeline();
+
 });
-
-function mostrarDescricao(tipo: string): void {
-
-    const descricao = document.getElementById("descricaoTecnologia");
-
-    if (!descricao) return;
-
-    switch (tipo) {
-
-        case "terraform":
-            descricao.innerHTML = `
-                <h5>Terraform</h5>
-                <p>
-                    Terraform é uma ferramenta de Infraestrutura como Código (IaC)
-                    utilizada para provisionar recursos em provedores de nuvem
-                    através de arquivos declarativos. Permite versionamento,
-                    automação, reprodutibilidade e gerenciamento do ciclo de vida
-                    da infraestrutura.
-                </p>
-            `;
-            break;
-
-        case "ansible":
-            descricao.innerHTML = `
-                <h5>Ansible</h5>
-                <p>
-                    Ansible é uma ferramenta de automação utilizada para
-                    configuração de servidores, instalação de softwares,
-                    gerenciamento de serviços e orquestração de ambientes.
-                    Utiliza Playbooks escritos em YAML para definir tarefas.
-                </p>
-            `;
-            break;
-
-        case "beneficios":
-            descricao.innerHTML = `
-                <h5>Benefícios da Solução</h5>
-                <p>
-                    A utilização de IaC reduz erros manuais, aumenta a
-                    produtividade das equipes, garante padronização dos
-                    ambientes, facilita auditorias, melhora a escalabilidade
-                    e permite recuperação rápida da infraestrutura.
-                </p>
-            `;
-            break;
-
-        default:
-            descricao.innerHTML =
-                "Selecione uma tecnologia para visualizar mais detalhes.";
-    }
-}
