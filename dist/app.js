@@ -73,7 +73,7 @@ function atualizarData() {
 
 function atualizarDias() {
 
-    const entrega = new Date("2026-07-10");
+    const entrega = new Date("2027-07-10");
     const hoje = new Date();
 
     const diasRestantes = Math.ceil(
